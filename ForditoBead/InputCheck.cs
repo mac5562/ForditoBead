@@ -35,17 +35,13 @@ namespace ForditoBead
         }
         public string Check(string input)
         {
-
             string modified = "";
             modified = Regex.Replace(input, "([0-9]{1,2})+", "i");
             if (input==String.Empty)
             {
                 return "wrong";
             }
-            if (input[input.Length - 1] != '#')
-            {
-                modified += '#';
-            }
+            
             if (input.Contains('('))
             {
                 for (int i = 0; i < input.Length; i++)
@@ -64,13 +60,17 @@ namespace ForditoBead
                 {
                      if (input[i] == ')')
                     {
-                        input = input.Remove(i);
+                        input = input.Remove(i,1);
                         modified = input;
                     }
                 }
                 
             }
-            if (modified.Contains("i")&&modified.Contains("*") || modified.Contains("(") || modified.Contains(")") && modified.Contains("#") && modified.Contains("+"))
+            if (input[input.Length - 1] != '#')
+            {
+                modified += '#';
+            }
+            if (modified.Contains("i")&&modified.Contains("*") && !modified.Contains("(") &&!modified.Contains(")") && modified.Contains("#") && modified.Contains("+"))
             {
                 return modified;
             }

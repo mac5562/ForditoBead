@@ -42,13 +42,20 @@ namespace ForditoBead
 
         private void examine(string node)
         {
-
-            if (node.Length == 0)
+            if (node.Contains('('))
             {
-                Console.WriteLine("Valami hiba történt kezdje elölről");
-                cont = false;
+                string helper = node.Substring(1).Split(',')[0];
+                for (int j = helper.Length - 1; j >= 0; j--)
+                {
+                    stack.Push(helper[j].ToString());
+                }
             }
+            if (node.Contains(')'))
+            {
+                ruleList.Add(node.Substring(0, node.Length - 1).Split(',')[1]);
+                showCurrStat("");
 
+            }
             if (node.Trim() == "elfogad")
             {
                 Console.WriteLine("OK, Elemzés vége kifejezés elfogadva");
@@ -61,22 +68,14 @@ namespace ForditoBead
                 showCurrStat("pop");
 
             }
-
-            if (node.Contains('('))
+            if (node.Length == 0)
             {
-                string helper = node.Substring(1).Split(',')[0];
-                for (int j = helper.Length - 1; j >= 0; j--)
-                {
-                    stack.Push(helper[j].ToString());
-                }
+                Console.WriteLine("Valami hiba történt kezdje elölről");
+                cont = false;
             }
 
-            if (node.Contains(')'))
-            {
-                ruleList.Add(node.Substring(0, node.Length - 1).Split(',')[1]);
-                showCurrStat("");
 
-            }
+
 
         }
         private void showCurrStat(string additional)
